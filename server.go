@@ -54,7 +54,8 @@ func handleConnection(conn net.Conn) {
 	}
 	method := parts[0]	// "GET" etc.
 	path := parts[1]	// "/helloworld.html" etc.
-	// httpVersion := parts[2]
+	httpVersion := parts[2]
+	fmt.Println("Request:", method, path, httpVersion)
 
 	// ========== Read the headers ==========
 	for {

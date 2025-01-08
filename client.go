@@ -7,15 +7,16 @@ import (
 	"os"
 )
 
-
+// go run client.go [METHOD] [HOST:PORT] [PATH]
+// e.g. go run client.go GET localhost:8080 /helloworld.html
 func main() {
 	if len(os.Args) < 3 {
 		fmt.Println(("Usage: go run client.go [HOST:PORT] [PATH]"))
 		return
 	}
-
-	hostPort := os.Args[1]
-	path := os.Args[2]
+	method := os.Args[1]
+	hostPort := os.Args[2]
+	path := os.Args[3]
 
 	// Connect to the server
 	conn, err := net.Dial("tcp", hostPort)
@@ -26,7 +27,7 @@ func main() {
 	defer conn.Close()	// Close the connection when the main function ends
 
 	// Send HTTP GET request
-	request := fmt.Sprintf("GET %s HTTP/1.1\r\nHOST: %s\r\n\r\n", path, hostPort)
+	request := fmt.Sprintf("%s %s HTTP/1.1\r\nHOST: %s\r\n\r\n", method, path, hostPort)
 	_, err = conn.Write([]byte(request))
 	if err != nil {
 		fmt.Println("Error writing request", err)
